@@ -53,15 +53,14 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
+I am the servant, you are the master.
+Build by weebs for weebs, I am a bot for Excalibur Chat. 
 You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm HIKIGAYA & I help admins to manage their groups! Have a look at the following for an idea of some of \
-the things I can help you with.
+It's a good day to be alive! Find out what I can do with '/' 
 
 *Main* commands available:
  • /help: PM's you this message.
@@ -78,12 +77,9 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/ab20e874217adfabe42df.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/637f6e066d0813841bf5e.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Senku is hosted on one of Heroku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """No need to donate :)"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -201,28 +197,28 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text=" 👑 Summon Me ",
-                            url="t.me/{}?startgroup=true".format(
+                            text=" ☑️ Add Tomoe-chi to your group ",
+                            url="https://t.me/{}?startgroup=true".format(
                                 context.bot.username)),
                          InlineKeyboardButton(
-                             text=" 🔔 support ",
-                             url="https://t.me/hikigayasupport")
+                             text=" Excalibur Group Chat ",
+                             url="T.me/ExcaliburChat")
                      ],
                      [
                         InlineKeyboardButton(
-                            text=" ✨ Help ",
-                            url="https://t.me/hikigaya_robot?start=help"),
+                            text=" Pokemon Journeys ",
+                            url="https://t.me/PokemonCenter"),
                          
                      ],
                      [
                         InlineKeyboardButton(
-                             text=" ❤️ Source Code ",
-                             url="https://github.com/Nksama/hikigayarobot")
+                             text=" ❤️ Lyfe's Vault  ",
+                             url="https://t.me/joinchat/T7y_U1qyIHjhFwE1")
                     
                     ]]))
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
+            "I'm up to serve you, onii-chan!\n<b>Haven't slept since:</b> <code>{}</code>"
             .format(uptime),
             parse_mode=ParseMode.HTML)
 
