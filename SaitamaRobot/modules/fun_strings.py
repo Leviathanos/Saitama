@@ -28,10 +28,10 @@ GIFS = [
 
 SLAP_SAITAMA_TEMPLATES = (
     "Slap me one more time and I'll mute you.",
-    "Harder, onii-chan.",
+    "Stop slapping me just because I can't mute you. REEEEEEEEEE.",
     [
         "I am muting you for a minute.",  # normal reply
-        "Stop slapping me just because I can't mute you. REEEEEEEEEE.",  # reply to admin
+        "Harder, onii-chan.",  # reply to admin
         "tmute",  # command
         "Shut up!",
         "Silence!"
