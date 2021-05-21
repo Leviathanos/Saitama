@@ -218,7 +218,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Tigers
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
-                    "Ara, ara! A Wolf just joined! Oh, it's only {"username"}",
+                    "Ara, ara! Wasabi level user just joined. Dangerous.",
                     reply_to_message_id=reply)
                 continue
 
