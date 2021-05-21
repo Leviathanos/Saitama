@@ -187,7 +187,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Whoa! A member of the Heroes Association just joined!",
+                    "Subarashii! A master just joined, be at your best.",
                     reply_to_message_id=reply,
                 )
                 continue
@@ -195,7 +195,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Sudos
             elif new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
-                    "Huh! A Dragon disaster just joined! Stay Alert!",
+                    "Huh! Overpowered user just joined! Stay Alert!",
                     reply_to_message_id=reply,
                 )
                 continue
@@ -218,7 +218,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Tigers
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
-                    "Oof! A Wolf disaster just joined!",
+                    "Oof! A Wolf disaster just joined! Oh, it's only {username}",
                     reply_to_message_id=reply)
                 continue
 
@@ -489,7 +489,7 @@ def left_member(update: Update, context: CallbackContext):
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Oi! Genos! He left..", reply_to_message_id=reply)
+                    "Oh no, papa left..", reply_to_message_id=reply)
                 return
 
             # Give the devs a special goodbye
