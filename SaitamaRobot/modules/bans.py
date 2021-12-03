@@ -386,7 +386,7 @@ __help__ = """
 
 BAN_HANDLER = CommandHandler("ban", ban)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-SNAP_HANDLER = CommandHandler("snap", snap)
+BOOP_HANDLER = CommandHandler("boop", boop)
 UNBAN_HANDLER = CommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
 BOOPME_HANDLER = DisableAbleCommandHandler(
