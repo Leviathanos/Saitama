@@ -386,7 +386,7 @@ __help__ = """
 
 BAN_HANDLER = CommandHandler("ban", ban)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-BOOP_HANDLER = CommandHandler("boop", boop)
+PUNCH_HANDLER = CommandHandler("boop", boop)
 UNBAN_HANDLER = CommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
 BOOPME_HANDLER = DisableAbleCommandHandler(
@@ -401,6 +401,6 @@ dispatcher.add_handler(BOOPME_HANDLER)
 
 __mod_name__ = "Bans"
 __handlers__ = [
-    BAN_HANDLER, TEMPBAN_HANDLER, BOOP_HANDLER, UNBAN_HANDLER, ROAR_HANDLER,
+    BAN_HANDLER, TEMPBAN_HANDLER, OUNCH_HANDLER, UNBAN_HANDLER, ROAR_HANDLER,
     BOOPME_HANDLER
 ]
