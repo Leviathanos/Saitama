@@ -381,15 +381,15 @@ __help__ = """
  • `/ban <userhandle>`*:* bans a user. (via handle, or reply)
  • `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
  • `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
- • `/boop <userhandle>`*:* Boops a user out of the group, (via handle, or reply)
+ • `/boop <userhandle>`*:* boops a user out of the group, (via handle, or reply)
 """
 
 BAN_HANDLER = CommandHandler("ban", ban)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-PUNCH_HANDLER = CommandHandler("boop", punch)
+PUNCH_HANDLER = CommandHandler("punch", punch)
 UNBAN_HANDLER = CommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
-BOOPME_HANDLER = DisableAbleCommandHandler(
+PUNCHME_HANDLER = DisableAbleCommandHandler(
     "boopme", boopme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
@@ -401,6 +401,6 @@ dispatcher.add_handler(BOOPME_HANDLER)
 
 __mod_name__ = "Bans"
 __handlers__ = [
-    BAN_HANDLER, TEMPBAN_HANDLER, OUNCH_HANDLER, UNBAN_HANDLER, ROAR_HANDLER,
-    BOOPME_HANDLER
+    BAN_HANDLER, TEMPBAN_HANDLER, PUNCH_HANDLER, UNBAN_HANDLER, ROAR_HANDLER,
+    PUNCHME_HANDLER
 ]
