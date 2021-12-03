@@ -1,286 +1,169 @@
-import asyncio
-import emoji
+import html
+# AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
+from time import sleep, time
 
-IBM_WATSON_CRED_URL = "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/bd6b59ba-3134-4dd4-aff2-49a79641ea15"
-IBM_WATSON_CRED_PASSWORD = "UQ1MtTzZhEsMGK094klnfa-7y_4MCpJY1yhd52MXOo3Y"
-url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
-import re
+import SaitamaRobot.modules.sql.chatbot_sql as sql
+from coffeehouse.api import API
+from coffeehouse.exception import CoffeeHouseError as CFError
+from coffeehouse.lydia import LydiaAI
+from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from SaitamaRobot.modules.log_channel import gloggable
+from telegram import Update
+from telegram.error import BadRequest, RetryAfter, Unauthorized
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
+from telegram.utils.helpers import mention_html
 
-import aiohttp
-from google_trans_new import google_translator
-from pyrogram import filters
-
-from chatbot import BOT_ID
-from chatbot.utils.arh import arq
-from chatbot.utils import admins_only, edit_or_reply
-from chatbot import cb
-
-translator = google_translator()
-
-
-async def lunaQuery(query: str, user_id: int):
-    luna = await arq.luna(query, user_id)
-    return luna.result
+CoffeeHouseAPI = API(AI_API_KEY)
+api_client = LydiaAI(CoffeeHouseAPI)
 
 
-def extract_emojis(s):
-    return "".join(c for c in s if c in emoji.UNICODE_EMOJI)
-
-
-async def fetch(url):
-    try:
-        async with aiohttp.Timeout(10.0):
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    try:
-                        data = await resp.json()
-                    except:
-                        data = await resp.text()
-            return data
-    except:
-        print("AI response Timeout")
+@run_async
+@user_admin
+@gloggable
+def add_chat(update: Update, context: CallbackContext):
+    global api_client
+    chat = update.effective_chat
+    msg = update.effective_message
+    user = update.effective_user
+    is_chat = sql.is_chat(chat.id)
+    if chat.type == "private":
+        msg.reply_text("You can't enable AI in PM.")
         return
 
-
-cb_chats = []
-en_chats = []
-# AI Chat (C) 2020-2021 by @InukaAsith
-
-@cb.on_message(
-    filters.text
-    & filters.reply
-    & ~filters.bot
-    & ~filters.edited
-    & ~filters.via_bot
-    & ~filters.forwarded,
-    group=2,
-)
-async def chatbot_function(client, message):
-    if not message.reply_to_message:
-        return
-    try:
-        senderr = message.reply_to_message.from_user.id
-    except:
-        return
-    if senderr != BOT_ID:
-        return
-    msg = message.text
-    chat_id = message.chat.id
-    if msg.startswith("/") or msg.startswith("@"):
-        message.continue_propagation()
-    if chat_id in en_chats:
-        test = msg
-        test = test.replace("kai", "Aco")
-        test = test.replace("kai", "Aco")
-        response = await lunaQuery(
-            test, message.from_user.id if message.from_user else 0
+    if not is_chat:
+        ses = api_client.create_session()
+        ses_id = str(ses.id)
+        expires = str(ses.expires)
+        sql.set_ses(chat.id, ses_id, expires)
+        msg.reply_text("AI successfully enabled for this chat!")
+        message = (
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#AI_ENABLED\n"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         )
-        response = response.replace("Aco", "kai")
-        response = response.replace("aco", "kai")
-
-        pro = response
-        try:
-            await cb.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
-
+        return message
     else:
-        u = msg.split()
-        emj = extract_emojis(msg)
-        msg = msg.replace(emj, "")
-        if (
-            [(k) for k in u if k.startswith("@")]
-            and [(k) for k in u if k.startswith("#")]
-            and [(k) for k in u if k.startswith("/")]
-            and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-        ):
+        msg.reply_text("AI is already enabled for this chat!")
+        return ""
 
-            h = " ".join(filter(lambda x: x[0] != "@", u))
-            km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-            tm = km.split()
-            jm = " ".join(filter(lambda x: x[0] != "#", tm))
-            hm = jm.split()
-            rm = " ".join(filter(lambda x: x[0] != "/", hm))
-        elif [(k) for k in u if k.startswith("@")]:
 
-            rm = " ".join(filter(lambda x: x[0] != "@", u))
-        elif [(k) for k in u if k.startswith("#")]:
-            rm = " ".join(filter(lambda x: x[0] != "#", u))
-        elif [(k) for k in u if k.startswith("/")]:
-            rm = " ".join(filter(lambda x: x[0] != "/", u))
-        elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-            rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
-        else:
-            rm = msg
-            # print (rm)
-        try:
-            lan = translator.detect(rm)
-        except:
-            return
-        test = rm
-        if not "en" in lan and not lan == "":
-            try:
-                test = translator.translate(test, lang_tgt="en")
-            except:
-                return
-        # test = emoji.demojize(test.strip())
-
-        test = test.replace("Naoto")
-        test = test.replace("naoto")
-        response = await lunaQuery(
-            test, message.from_user.id if message.from_user else 0
+@run_async
+@user_admin
+@gloggable
+def remove_chat(update: Update, context: CallbackContext):
+    msg = update.effective_message
+    chat = update.effective_chat
+    user = update.effective_user
+    is_chat = sql.is_chat(chat.id)
+    if not is_chat:
+        msg.reply_text("AI isn't enabled here in the first place!")
+        return ""
+    else:
+        sql.rem_chat(chat.id)
+        msg.reply_text("AI disabled successfully!")
+        message = (
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#AI_DISABLED\n"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         )
-        response = response.replace("Naoto")
-        response = response.replace("naoto")
-        pro = response
-        if not "en" in lan and not lan == "":
-            try:
-                pro = translator.translate(pro, lang_tgt=lan[0])
-            except:
-                return
-        try:
-            await cb.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
+        return message
 
 
-@cb.on_message(
-    filters.text & ~filters.edited & filters.reply & ~filters.bot
-)
-async def lol(client, message):
-    msg = message.text
-    if msg.startswith("/") or msg.startswith("@"):
-        message.continue_propagation()
-    u = msg.split()
-    emj = extract_emojis(msg)
-    msg = msg.replace(emj, "")
-    if (
-        [(k) for k in u if k.startswith("@")]
-        and [(k) for k in u if k.startswith("#")]
-        and [(k) for k in u if k.startswith("/")]
-        and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-    ):
-
-        h = " ".join(filter(lambda x: x[0] != "@", u))
-        km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-        tm = km.split()
-        jm = " ".join(filter(lambda x: x[0] != "#", tm))
-        hm = jm.split()
-        rm = " ".join(filter(lambda x: x[0] != "/", hm))
-    elif [(k) for k in u if k.startswith("@")]:
-
-        rm = " ".join(filter(lambda x: x[0] != "@", u))
-    elif [(k) for k in u if k.startswith("#")]:
-        rm = " ".join(filter(lambda x: x[0] != "#", u))
-    elif [(k) for k in u if k.startswith("/")]:
-        rm = " ".join(filter(lambda x: x[0] != "/", u))
-    elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-        rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
+def check_message(context: CallbackContext, message):
+    reply_msg = message.reply_to_message
+    if message.text.lower() == "senku":
+        return True
+    if reply_msg:
+        if reply_msg.from_user.id == context.bot.get_me().id:
+            return True
     else:
-        rm = msg
-        # print (rm)
-    try:
-        lan = translator.detect(rm)
-    except:
+        return False
+
+
+@run_async
+def chatbot(update: Update, context: CallbackContext):
+    global api_client
+    msg = update.effective_message
+    chat_id = update.effective_chat.id
+    is_chat = sql.is_chat(chat_id)
+    bot = context.bot
+    if not is_chat:
         return
-    test = rm
-    if not "en" in lan and not lan == "":
-        try:
-            test = translator.translate(test, lang_tgt="en")
-        except:
+    if msg.text and not msg.document:
+        if not check_message(context, msg):
             return
-
-    # test = emoji.demojize(test.strip())
-
-    # Kang with the credits bitches @InukaASiTH
-
-    test = test.replace("Naoto", "naoto")
-    test = test.replace("naoto", "naoto")
-    
-    response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
-    response = response.replace("Naoto", "naoto")
-    response = response.replace("naoto", "naoto")
-
-    pro = response
-    if not "en" in lan and not lan == "":
-        pro = translator.translate(pro, lang_tgt=lan[0])
-    try:
-        await cb.send_chat_action(message.chat.id, "typing")
-        await message.reply_text(pro)
-    except CFError:
-        return
-
-
-@cb.on_message(
-    filters.regex("Naoto|naoto")
-    & ~filters.bot
-    & ~filters.via_bot
-    & ~filters.forwarded
-    & ~filters.reply
-    & ~filters.channel
-    & ~filters.edited
-)
-async def chat(client, message):
-    msg = message.text
-    if msg.startswith("/") or msg.startswith("@"):
-        message.continue_propagation()
-    u = msg.split()
-    emj = extract_emojis(msg)
-    msg = msg.replace(emj, "")
-    if (
-        [(k) for k in u if k.startswith("@")]
-        and [(k) for k in u if k.startswith("#")]
-        and [(k) for k in u if k.startswith("/")]
-        and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-    ):
-
-        h = " ".join(filter(lambda x: x[0] != "@", u))
-        km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-        tm = km.split()
-        jm = " ".join(filter(lambda x: x[0] != "#", tm))
-        hm = jm.split()
-        rm = " ".join(filter(lambda x: x[0] != "/", hm))
-    elif [(k) for k in u if k.startswith("@")]:
-
-        rm = " ".join(filter(lambda x: x[0] != "@", u))
-    elif [(k) for k in u if k.startswith("#")]:
-        rm = " ".join(filter(lambda x: x[0] != "#", u))
-    elif [(k) for k in u if k.startswith("/")]:
-        rm = " ".join(filter(lambda x: x[0] != "/", u))
-    elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-        rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
-    else:
-        rm = msg
-        # print (rm)
-    try:
-        lan = translator.detect(rm)
-    except:
-        return
-    test = rm
-    if not "en" in lan and not lan == "":
+        sesh, exp = sql.get_ses(chat_id)
+        query = msg.text
         try:
-            test = translator.translate(test, lang_tgt="en")
-        except:
-            return
-
-    # test = emoji.demojize(test.strip())
-
-    test = test.replace("Naoto", "naoto")
-    test = test.replace("naoto", "naoto")
-    response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
-    response = response.replace("Naoto", "naoto")
-    response = response.replace("naoto", "naoto")
-
-    pro = response
-    if not "en" in lan and not lan == "":
+            if int(exp) < time():
+                ses = api_client.create_session()
+                ses_id = str(ses.id)
+                expires = str(ses.expires)
+                sql.set_ses(chat_id, ses_id, expires)
+                sesh, exp = sql.get_ses(chat_id)
+        except ValueError:
+            pass
         try:
-            pro = translator.translate(pro, lang_tgt=lan[0])
-        except Exception:
-            return
-    try:
-        await cb.send_chat_action(message.chat.id, "typing")
-        await message.reply_text(pro)
-    except CFError:
-        return
+            bot.send_chat_action(chat_id, action='typing')
+            rep = api_client.think_thought(sesh, query)
+            sleep(0.3)
+            msg.reply_text(rep, timeout=60)
+        except CFError as e:
+            pass
+            #bot.send_message(OWNER_ID,
+            #                 f"Chatbot error: {e} occurred in {chat_id}!")
+
+
+@run_async
+def list_chatbot_chats(update: Update, context: CallbackContext):
+    chats = sql.get_all_chats()
+    text = "<b>AI-Enabled Chats</b>\n"
+    for chat in chats:
+        try:
+            x = context.bot.get_chat(int(*chat))
+            name = x.title if x.title else x.first_name
+            text += f"• <code>{name}</code>\n"
+        except BadRequest:
+            sql.rem_chat(*chat)
+        except Unauthorized:
+            sql.rem_chat(*chat)
+        except RetryAfter as e:
+            sleep(e.retry_after)
+    update.effective_message.reply_text(text, parse_mode="HTML")
+
+
+__help__ = f"""
+Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
+
+*Commands:* 
+*Admins only:*
+ • `/addchat`*:* Enables Chatbot mode in the chat.
+ • `/rmchat`*:* Disables Chatbot mode in the chat.
+
+Reports bugs at @{SUPPORT_CHAT}
+*Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
+"""
+
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
+CHATBOT_HANDLER = MessageHandler(
+    Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
+                    & ~Filters.regex(r"^\/")), chatbot)
+LIST_CB_CHATS_HANDLER = CommandHandler(
+    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
+# Filters for ignoring #note messages, !commands and sed.
+
+dispatcher.add_handler(ADD_CHAT_HANDLER)
+dispatcher.add_handler(REMOVE_CHAT_HANDLER)
+dispatcher.add_handler(CHATBOT_HANDLER)
+dispatcher.add_handler(LIST_CB_CHATS_HANDLER)
+
+__mod_name__ = "Chatbot"
+__command_list__ = ["addchat", "rmchat", "listaichats"]
+__handlers__ = [
+    ADD_CHAT_HANDLER, REMOVE_CHAT_HANDLER, CHATBOT_HANDLER,
+    LIST_CB_CHATS_HANDLER
+]
