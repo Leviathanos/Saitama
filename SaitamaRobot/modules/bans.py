@@ -394,10 +394,10 @@ PUNCHME_HANDLER = DisableAbleCommandHandler(
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
-dispatcher.add_handler(BOOP_HANDLER)
+dispatcher.add_handler(PUNCH_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
 dispatcher.add_handler(ROAR_HANDLER)
-dispatcher.add_handler(BOOPME_HANDLER)
+dispatcher.add_handler(PUNCHME_HANDLER)
 
 __mod_name__ = "Bans"
 __handlers__ = [
