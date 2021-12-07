@@ -77,6 +77,11 @@ def ban(update: Update, context: CallbackContext) -> str:
         else:
             message.reply_text("This user is immune to bans, but not proteccs.")
             return log_message
+            )
+            return log_message
+        elif user_id == 2026360841:
+            message.reply_text("You can only run.")
+            return log_message
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
