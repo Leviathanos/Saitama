@@ -71,11 +71,11 @@ def ban(update: Update, context: CallbackContext) -> str:
                 "Do you want me to get in trouble?"
             )
             return log_message
-        elif user_id == 2026360841:
-            message.reply_text("It worked, I can't ban this user!")
+        elif user_id == 126654382:
+            message.reply_text("Why would you want to ban Relaxo?")
             return log_message
         else:
-            message.reply_text("This user has immunity and cannot be banned.")
+            message.reply_text("This user is immune to bans, but not proteccs ;)")
             return log_message
 
     log = (
