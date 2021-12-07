@@ -80,8 +80,8 @@ def ban(update: Update, context: CallbackContext) -> str:
             )
             return log_message
         elif user_id == 2026360841:
-            message.reply_text("You can only run.")
-            return log_message
+            message.reply_text("It worked!")
+            return log_message 
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
