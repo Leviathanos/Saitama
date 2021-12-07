@@ -75,7 +75,7 @@ def ban(update: Update, context: CallbackContext) -> str:
             message.reply_text("Why would you want to ban Relaxo?")
             return log_message
         else:
-            message.reply_text("This user is immune to bans, but not proteccs ;)")
+            message.reply_text("This user is immune to bans, but not proteccs.")
             return log_message
 
     log = (
