@@ -12,8 +12,6 @@ from plugins.teletips_t import *
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.raw.functions.messages import UpdatePinnedMessage
 
-)
-
 stoptimer = False
 
 TELETIPS_MAIN_MENU_BUTTONS = [
