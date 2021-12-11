@@ -1,13 +1,13 @@
 ![Hikigaya](https://telegra.ph/file/993f1fbb29e2b0fc1a860.jpg)
-# Hikigaya
+# Tomoechi
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51)](https://app.codacy.com/gh/AnimeKaizoku/SaitamaRobot?utm_source=github.com&utm_medium=referral&utm_content=AnimeKaizoku/SaitamaRobot&utm_campaign=Badge_Grade_Settings)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/AnimeKaizoku/SaitamaRobot/graphs/commit-activity) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html) [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![Updates channel!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/OnePunchUpdates)
 
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database and an entirely themed persona to make Saitama suitable for Anime and Manga group chats. 
 
-Can be found on telegram as [Hikigaya](https://t.me/hikigaya_robot).
+Can be found on telegram as [Tomoechi](https://t.me/Tomoechibot).
 
-The Support group can be reached out to at [hikigaya Support](https://t.me/hikigayasupport), where you can ask for help about [Hiki support'](https://t.me/hikigayasupport), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Excalibur Chat](https://t.me/ExcaliburChat), where you can ask for help about [Tomoechi'](https://t.me/Tomoechibot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 
 
@@ -180,4 +180,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [hikigaya support](https://t.me/hikigayasupport) or simply submit a pull request on the readme.
+Should any be missing kindly let us know at [Excalibur Chat](https://t.me/ExcaliburChat) or simply submit a pull request on the readme.
