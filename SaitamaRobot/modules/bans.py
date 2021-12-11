@@ -207,7 +207,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
 @user_admin
 @user_can_ban
 @loggable
-def punch(update: Update, context: CallbackContext) -> str:
+def boop(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -263,7 +263,7 @@ def punch(update: Update, context: CallbackContext) -> str:
 @run_async
 @bot_admin
 @can_restrict
-def punchme(update: Update, context: CallbackContext):
+def boopme(update: Update, context: CallbackContext):
     user_id = update.effective_message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
         update.effective_message.reply_text(
@@ -386,11 +386,11 @@ __help__ = """
 
 BAN_HANDLER = CommandHandler("ban", ban)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-PUNCH_HANDLER = CommandHandler("punch", punch)
+PUNCH_HANDLER = CommandHandler("boop", boop)
 UNBAN_HANDLER = CommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
-    "punchme", punchme, filters=Filters.group)
+    "boopme", boopme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
