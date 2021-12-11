@@ -1,6 +1,6 @@
 from os import name
 from pyrogram.methods import messages
-from nksama import bot , help_message
+from SaitamaRobot import bot , help_message
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton , InlineKeyboardMarkup
 from SaitamaRobot.modules.helptext import Help_Text
