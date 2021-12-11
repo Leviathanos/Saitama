@@ -267,6 +267,8 @@ EARS = [['q', 'p'], ['ʢ', 'ʡ'], ['⸮', '?'], ['ʕ', 'ʔ'], ['ᖗ', 'ᖘ'], ['
 
 TOSS = ("Heads", "Tails")
 
+TEST = ("Relaxo and Moody are my followers", "You wouldn't know this, newbie, but I'm a big deal around here!", "Call me QUEEN", "Run before I mute you.")
+
 EIGHTBALL = [
     "🟢 As I see it, yes.", "🟡 Ask again later.", "🟡 Better not tell you now.",
     "🟡 Cannot predict now.", "🟡 Concentrate and ask again.",
