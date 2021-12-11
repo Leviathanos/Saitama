@@ -254,6 +254,9 @@ def weebify(update: Update, context: CallbackContext):
     else:
         message.reply_text(string)
 
+@run_async
+def test(update: Update, context: CallbackContext):
+    update.message.reply_text(random.choice(fun_strings.TEST))        
 
 __help__ = """
  • `/runs`*:* reply a random string from an array of replies
