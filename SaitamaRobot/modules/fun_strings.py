@@ -267,7 +267,9 @@ EARS = [['q', 'p'], ['ʢ', 'ʡ'], ['⸮', '?'], ['ʕ', 'ʔ'], ['ᖗ', 'ᖘ'], ['
 
 TOSS = ("Heads", "Tails")
 
-TEST = ("Relaxo and Moody are my followers", "You wouldn't know this, newbie, but I'm a big deal around here!", "Call me QUEEN", "Run before I mute you.")
+TEST = ("Relaxo and Moody are my followers", "You wouldn't know this, newbie, but I'm a big deal around here!", "Call me QUEEN", "Run before I mute you.",
+        "SNIPER, be careful! Oh, it's just Saitama.", "I don't want to believe you, but I will.", "I'm awarding you 100xp, minion.", 
+        "CAACAgEAAxkBAAEM4QRhqcQbNpuATMTsfvITA1G54QABefEAAiABAAIsPAFH8RNYfDFnqroiBA", "What else can I do?", "Stop it.")
 
 EIGHTBALL = [
     "🟢 As I see it, yes.", "🟡 Ask again later.", "🟡 Better not tell you now.",
