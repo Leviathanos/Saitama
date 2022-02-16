@@ -9,9 +9,9 @@ from sqlalchemy.dialects import postgresql
 class Warns(BASE):
     __tablename__ = "warns"
 
-    user_id = Column(Biginteger, primary_key=True)
+    user_id = Column(BigInteger, primary_key=True)
     chat_id = Column(String(14), primary_key=True)
-    num_warns = Column(Biginteger, default=0)
+    num_warns = Column(BigInteger, default=0)
     reasons = Column(postgresql.ARRAY(UnicodeText))
 
     def __init__(self, user_id, chat_id):
