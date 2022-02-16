@@ -10,7 +10,7 @@ class CustomFilters(object):
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DEMONS)
 
-    support_filter = _Supporters()
+    support_filter = Supporters()
 
     class Sudoers(BaseFilter):
 
