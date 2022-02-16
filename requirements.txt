@@ -38,7 +38,7 @@ tswift
 pyowm
 tabulate
 parsel
-pyrogram==1.4
+pyrogram==1.4.7
 tgcrypto
 telegraph
 pytz
