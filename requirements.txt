@@ -32,14 +32,13 @@ pyrate-limiter
 cachetools
 fontTools
 gtts
-pyrogram
 redis
 nekos.py
 tswift
 pyowm
 tabulate
 parsel
-pyrogram
+pyrogram==1.4
 tgcrypto
 telegraph
 pytz
