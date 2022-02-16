@@ -5,26 +5,26 @@ from telegram.ext import BaseFilter
 
 class CustomFilters(object):
 
-    class Supporters(BaseFilter):
+    class _Supporters(BaseFilter):
 
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DEMONS)
 
-    support_filter = Supporters()
+    support_filter = _Supporters()
 
-    class Sudoers(BaseFilter):
+    class _Sudoers(BaseFilter):
 
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DRAGONS)
 
-    sudo_filter = Sudoers()
+    sudo_filter = _Sudoers()
 
-    class Developers(BaseFilter):
+    class _Developers(BaseFilter):
 
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DEV_USERS)
 
-    dev_filter = Developers()
+    dev_filter = _Developers()
 
     class _MimeType(BaseFilter):
 
