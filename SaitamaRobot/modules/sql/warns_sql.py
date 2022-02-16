@@ -1,7 +1,7 @@
 import threading
 
 from SaitamaRobot.modules.sql import BASE, SESSION
-from sqlalchemy import (Boolean, Column, BigInteger, Integer, String, UnicodeText, distinct,
+from sqlalchemy import (Boolean, Column, BigInteger, String, UnicodeText, distinct,
                         func)
 from sqlalchemy.dialects import postgresql
 
@@ -11,7 +11,7 @@ class Warns(BASE):
 
     user_id = Column(BigInteger, primary_key=True)
     chat_id = Column(String(14), primary_key=True)
-    num_warns = Column(Integer, default=0)
+    num_warns = Column(BigInteger, default=0)
     reasons = Column(postgresql.ARRAY(UnicodeText))
 
     def __init__(self, user_id, chat_id):
@@ -27,7 +27,7 @@ class Warns(BASE):
 
 class WarnFilters(BASE):
     __tablename__ = "warn_filters"
-    chat_id = Column(String(28), primary_key=True)
+    chat_id = Column(String(14), primary_key=True)
     keyword = Column(UnicodeText, primary_key=True, nullable=False)
     reply = Column(UnicodeText, nullable=False)
 
@@ -48,7 +48,7 @@ class WarnFilters(BASE):
 class WarnSettings(BASE):
     __tablename__ = "warn_settings"
     chat_id = Column(String(28), primary_key=True)
-    warn_limit = Column(Integer, default=3)
+    warn_limit = Column(BigInteger, default=3)
     soft_warn = Column(Boolean, default=False)
 
     def __init__(self, chat_id, warn_limit=3, soft_warn=False):
