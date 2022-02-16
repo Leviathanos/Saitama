@@ -17,14 +17,14 @@ class CustomFilters(object):
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DRAGONS)
 
-    sudo_filter = _Sudoers()
+    sudo_filter = Sudoers()
 
-    class _Developers(BaseFilter):
+    class Developers(BaseFilter):
 
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DEV_USERS)
 
-    dev_filter = _Developers()
+    dev_filter = Developers()
 
     class _MimeType(BaseFilter):
 
