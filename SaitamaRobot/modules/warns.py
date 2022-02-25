@@ -399,10 +399,10 @@ def set_warn_limit(update: Update, context: CallbackContext) -> str:
 
     if args:
         if args[0].isdigit():
-            if int(args[0]) < 3:
+            if Bigint(args[0]) < 3:
                 msg.reply_text("The minimum warn limit is 3!")
             else:
-                sql.set_warn_limit(chat.id, int(args[0]))
+                sql.set_warn_limit(chat.id, Bigint(args[0]))
                 msg.reply_text("Updated the warn limit to {}".format(args[0]))
                 return (
                     f"<b>{html.escape(chat.title)}:</b>\n"
@@ -473,7 +473,7 @@ def __stats__():
 
 def __import_data__(chat_id, data):
     for user_id, count in data.get("warns", {}).items():
-        for x in range(int(count)):
+        for x in range(Bigint(count)):
             sql.warn_user(user_id, chat_id)
 
 
