@@ -65,9 +65,6 @@ if ENV:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
 
-      DB_URI = os.environ.get("DATABASE_URL")  # or other relevant config var
-          if URI.startswith("postgres://"):
-          URI = URI.replace("postgres://", "postgresql://", 1)
 
     INFOPIC = bool(os.environ.get('INFOPIC', False))
     EVENT_LOGS = os.environ.get('EVENT_LOGS', None)
