@@ -33,9 +33,9 @@ def approve(chat_id, user_id):
 def is_approved(chat_id, user_id):
     try:
         return SESSION.query(Approvals).get((str(chat_id), user_id))
-        except:
-        session.rollback()
-        raise
+            except:
+                session.rollback()
+            raise
         finally:
         SESSION.close()
 
