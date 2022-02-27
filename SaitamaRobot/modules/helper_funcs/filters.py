@@ -30,7 +30,9 @@ class CustomFilters(object):
 
         def __init__(self, mimetype):
             self.mime_type = mimetype
-	@@ -36,12 +36,12 @@ def filter(self, message: Message):
+            self.name = "CustomFilters.mime_type({})".format(self.mime_type)
+
+        def filter(self, message: Message):
             return bool(message.document and
                         message.document.mime_type == self.mime_type)
 
