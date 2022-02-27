@@ -7,8 +7,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 
 DB_URI = os.environ.get("DATABASE_URL")  # or other relevant config var
-if URI.startswith("postgres://"):
-    URI = URI.replace("postgres://", "postgresql://", 1)
+if DB_URI.startswith("postgres://"):
+    DB_URI = DB_URI.replace("postgres://", "postgresql://", 1)
 
 def start() -> scoped_session:
     engine = create_engine(DB_URI, client_encoding="utf8")
