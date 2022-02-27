@@ -4,6 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
+DB_URI = os.environ.get("DATABASE_URL")  # or other relevant config var
+if URI.startswith("postgres://"):
+    URI = URI.replace("postgres://", "postgresql://", 1)
+
 def start() -> scoped_session:
     engine = create_engine(DB_URI, client_encoding="utf8")
     BASE.metadata.bind = engine
